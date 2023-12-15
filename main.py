@@ -52,7 +52,10 @@ st.title('Investment Plan Fees Calculator')
 
 tab = st.text_area('Investment table', text)
 cash = st.number_input('Monthly payment', 700)
-r = st.number_input('Expected Return', 5, help='The expected number must be in the table.')
+r = st.selectbox(
+    'Expected yearly return in %.',
+    (0, 5, 7, 9), index=2
+)
 
 def no_fees(years, cash, r=0.05):
     s = 0
@@ -93,7 +96,7 @@ if tab != '':
 
         c_nofee = c(v_nofee)
         c_infinity_table = c(v_infinity_table)
-        ax2.set_ylim(0, r)
+        ax2.set_ylim(0, 10)
         ax2.set_xlabel('Year')
         ax2.set_ylabel('Fees (%)')
         ax2.plot(x, r - c_nofee, label=f'No Fee ({0})%', color='green')
@@ -106,6 +109,8 @@ if tab != '':
         st.pyplot(f)
     
         zz = {v: k for k, v in yy.items()}
+        n = sum(v_infinity_table < cost)
         st.info(f"It will cost you at least {np.nanmin(r - c_infinity_table):.2f}% in fees to subscribe to this plan")
         st.info(f"After 25 years, you will have paid {int(v_nofee[12] - v_infinity_table[12]):,} EUR of fees.")
+        st.info(f"You will loose some money if you withdraw it before {n} years.")
         # st.info(f"To minimize fees you should exit on year {zz[np.nanargmin(r - c_infinity_table)]}")
