@@ -51,7 +51,7 @@ formatter = FuncFormatter(human_format)
 st.title('Investment Plan Fees Calculator')
 
 tab = st.text_area('Investment table', text)
-cash = st.number_input('Monthly payment', 700)
+cash = st.number_input('Monthly payment', value=700)
 r = st.selectbox(
     'Expected yearly return in %.',
     (0, 5, 7, 9), index=2
